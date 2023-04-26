@@ -1,33 +1,37 @@
 #include "shell.h"
 
 /**
-* _strncpy - copies a string up to n characters
-* @dest: the destination string to be copied to
-* @src: the source string to be copied
-* @n: the maximum number of characters to be copied
-* Return: the copied string
+* _strncpy - copies a string up to a given length
+* @dest: the destination string to copy to
+* @src: the source string to copy from
+* @n: the maximum number of characters to copy
+*
+* Return: a pointer to the destination string
 */
-char *_strncpy(char *destination, char *source, int n)
+char *_strncpy(char *dest, char *src, int n)
 {
 int i, j;
-char *result = destination;
+char *ret = dest;
 
-i = 0;
-while (source[i] != '\0' && i < n - 1)
+/* Copy the first `n` characters from `src` to `dest` */
+for (i = 0; src[i] != '\0' && i < n; i++)
 {
-destination[i] = source[i];
-i++;
+dest[i] = src[i];
 }
+
+/* If `src` is shorter than `n`, fill the rest of `dest` with null bytes */
 if (i < n)
 {
 j = i;
 while (j < n)
 {
-destination[j] = '\0';
+dest[j] = '\0';
 j++;
 }
 }
-return (result);
+
+/* Return a pointer to the destination string */
+return (ret);
 }
 
 /**
@@ -61,7 +65,7 @@ dest[i] = '\0';
 return (s);
 }
 
-/*
+/**
 * _strchr - function locates a character in a string
 * @str: pointer to the string to be parsed
 * @c: the character to look for

@@ -38,15 +38,12 @@ return (-1);
 /* Return the converted integer value */
 return (result);
 }
-
 /**
-* print_error - This function gives an error message
-* @info: This pointer struct contains information about the program and error
-* @error_type: string containing specified error type
-* This function prints an error message to standard error,
-* including the program
-* name, line number, and specified error type.
-* Return: void
+* print_error - This function prints an error message
+* @info: This is the parameter and return information struct
+* @estr: string containing specified error type
+* Return: 0 if no numbers in string, converted number otherwise
+* -1 on error
 */
 void print_error(info_t *info, char *estr)
 {
