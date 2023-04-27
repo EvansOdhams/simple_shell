@@ -13,8 +13,7 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 ssize_t r = 0;
 size_t len_p = 0;
 
-do
-{
+do {
 if (!*len) /* if nothing left in the buffer, fill it */
 {
 /*bfree((void **)info->cmd_buf);*/
@@ -74,8 +73,7 @@ j = i; /* init new iterator to current buf position */
 p = buf + i; /* get pointer for return */
 
 check_chain(info, buf, &j, i, len);
-do
-{
+do {
 if (is_chain(info, buf, &j))
 {
 break;
@@ -106,12 +104,12 @@ return (r); /* return length of buffer from _getline() */
 *
 * Return: r
 */
-ssize_t read_buf(info_t *info, char *buf, size_t *i) {
+ssize_t read_buf(info_t *info, char *buf, size_t *i)
+{
 ssize_t r = (*i) ? 0 : read(info->readfd, buf, READ_BUF_SIZE);
-if (r >= 0) {
+if (r >= 0)
 *i = r;
-}
-return r;
+return (r);
 }
 
 /**
@@ -125,7 +123,7 @@ return r;
 int _getline(info_t *info, char **ptr, size_t *length)
 {
 static char buf[READ_BUF_SIZE];
-static size_t i = 0, len = 0;
+static size_t i, len;
 size_t k;
 ssize_t r = 0, s = 0;
 char *p = NULL, *new_p = NULL, *c;
@@ -135,7 +133,8 @@ if (p && length)
 s = *length;
 
 do {
-if (i == len) {
+if (i == len)
+{
 i = len = 0;
 r = read_buf(info, buf, &len);
 if (r == -1 || (r == 0 && len == 0))
