@@ -1,87 +1,97 @@
 #include "shell.h"
 
 /**
- * is_cmd - determines if a file is an executable command
- * @info: the info struct
- * @path: path to the file
- *
- * Return: 1 if true, 0 otherwise
- */
-int is_cmd(info_t *info, char *path)
+* is_cmd - Determines whether a given file path points to an executable file
+*
+* @info: Pointer to a struct containing information about the current process
+* @file_path: Pointer to a string representing the file path to check
+*
+* Return: 1 if the file is executable, 0 otherwise
+*/
+int is_cmd(info_t *info, char *file_path)
 {
-struct stat st;
+struct stat file_stats;
 
 (void)info;
-if (!path || stat(path, &st))
+
+if (!file_path || stat(file_path, &file_stats))
 return (0);
 
-if (st.st_mode & S_IFREG)
-{
+if (file_stats.st_mode & S_IFREG)
 return (1);
-}
+
 return (0);
 }
 
 /**
- * dup_chars - duplicates characters
- * @pathstr: the PATH string
- * @start: starting index
- * @stop: stopping index
+ * dup_chars - Duplicates a substring of a string into a buffer.
+ * @path_str: The string to extract the substring from.
+ * @start: The start position of the substring.
+ * @stop: The stop position of the substring.
  *
- * Return: pointer to new buffer
+ * Return: The duplicated substring.
  */
-char *dup_chars(char *pathstr, int start, int stop)
+char *dup_chars(char *path_str, int start, int stop)
 {
-static char buf[1024];
+static char buffer[1024];
 int i = 0, k = 0;
 
 for (k = 0, i = start; i < stop; i++)
-if (pathstr[i] != ':')
-buf[k++] = pathstr[i];
-buf[k] = 0;
-return (buf);
+{
+if (path_str[i] != ':')
+{
+buffer[k++] = path_str[i];
+}
+}
+
+buffer[k] = '\0';
+return (buffer);
 }
 
 /**
- * find_path - finds this cmd in the PATH string
- * @info: the info struct
- * @pathstr: the PATH string
- * @cmd: the cmd to find
- *
- * Return: full path of cmd if found or NULL
- */
-char *find_path(info_t *info, char *pathstr, char *cmd)
+* find_path - finds the full path of a command in the PATH environment variable
+* @info: pointer to the info struct
+* @path_str: the PATH environment variable
+* @command: the command to find in the PATH
+* Return: the full path of the command if found, otherwise NULL
+*/
+char *find_path(info_t *info, char *path_str, char *command)
 {
-int i = 0, curr_pos = 0;
-char *path;
+int index = 0, curr_pos = 0;
+char *full_path;
 
-if (!pathstr)
+if (!path_str)
 return (NULL);
-if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
+if ((_strlen(command) > 2) && starts_with(command, "./"))
 {
-if (is_cmd(info, cmd))
-return (cmd);
+if (is_cmd(info, command))
+return (command);
 }
 while (1)
 {
-if (!pathstr[i] || pathstr[i] == ':')
+if (!path_str[index] || path_str[index] == ':')
 {
-path = dup_chars(pathstr, curr_pos, i);
-if (!*path)
-_strcat(path, cmd);
+full_path = dup_chars(path_str, curr_pos, index);
+if (!*full_path)
+_strcat(full_path, command);
 else
 {
-_strcat(path, "/");
-_strcat(path, cmd);
+_strcat(full_path, "/");
+_strcat(full_path, command);
 }
-if (is_cmd(info, path))
-return (path);
-if (!pathstr[i])
+if (is_cmd(info, full_path))
+return (full_path);
+if (!path_str[index])
 break;
-curr_pos = i;
+curr_pos = index;
 }
-i++;
+index++;
 }
 return (NULL);
 }
+
+
+
+
+
 
