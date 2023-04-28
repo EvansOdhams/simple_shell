@@ -19,25 +19,42 @@ return (i);
 }
 
 /**
- * _strcmp - performs lexicogarphic comparison of two strangs.
- * @s1: the first strang
- * @s2: the second strang
- *
- * Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
- */
-int _strcmp(char *s1, char *s2)
+* _strcmp - performs Lexical comparison of two strings.
+* @s1: the first string as it input parameter
+* @s2: the second string as its input parameters
+*
+* Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
+*/
+int my_strcmp(char *s1, char *s2)
 {
-while (*s1 && *s2)
+int i = 0;
+
+while (s1[i] != '\0' && s2[i] != '\0')
 {
-if (*s1 != *s2)
-return (*s1 - *s2);
-s1++;
-s2++;
+if (s1[i] != s2[i])
+{
+return (s1[i] - s2[i]);
 }
-if (*s1 == *s2)
+i++;
+}
+
+if (s1[i] == '\0' && s2[i] == '\0')
+{
 return (0);
+}
 else
-return (*s1 < *s2 ? -1 : 1);
+{
+return (s1[i] < s2[i] ? -1 : 1);
+}
+}
+
+int main(void)
+{
+char s1[] = "hello";
+char s2[] = "world";
+int result = my_strcmp(s1, s2);
+printf("%d\n", result);
+return (0);
 }
 
 /**
