@@ -1,24 +1,26 @@
 #include "shell.h"
 
 /**
- * _strlen - returns the length of a string
- * @s: the string whose length to check
- *
- * Return: integer length of string
- */
-int _strlen(char *s)
+* _strlen - Gets the length of a string.
+* @str: The string to measure.
+*
+* Return: The length of the string.
+*/
+int _strlen(char *str)
 {
-int i = 0;
+int length = 0;
 
-if (!s)
+if (!str)
 return (0);
 
-while (*s++)
-i++;
-return (i);
+while (*str++)
+length++;
+
+return (length);
 }
 
 /**
+<<<<<<< HEAD
 * _strcmp - performs Lexical comparison of two strings.
 * @s1: the first string as it input parameter
 * @s2: the second string as its input parameters
@@ -55,38 +57,62 @@ char s2[] = "world";
 int result = my_strcmp(s1, s2);
 printf("%d\n", result);
 return (0);
-}
-
-/**
- * starts_with - checks if needle starts with haystack
- * @haystack: string to search
- * @needle: the substring to find
+=======
+ * _strcmp - Compares two strings.
+ * @s1: The first string to be compared.
+ * @s2: The second string to be compared.
  *
- * Return: address of next char of haystack or NULL
+ * Return: An integer less than, equal to, or greater than zero if s1 is found,
+ * respectively, to be less than, to match, or be greater than s2.
  */
-char *starts_with(const char *haystack, const char *needle)
+int _strcmp(char *s1, char *s2)
 {
-while (*needle)
-if (*needle++ != *haystack++)
-return (NULL);
-return ((char *)haystack);
+int i = 0;
+
+while (s1[i] && s2[i] && s1[i] == s2[i])
+i++;
+
+if (s1[i] == s2[i])
+return (0);
+
+return (s1[i] < s2[i] ? -1 : 1);
+>>>>>>> 24ff9679cbb52a68ad589f68d6009ae450cf3087
 }
 
 /**
- * _strcat - concatenates two strings
- * @dest: the destination buffer
- * @src: the source buffer
+* *starts_with - Checks if a string starts with a specified prefix.
+* @str: The string to search.
+* @prefix: The prefix to look for.
+*
+* Return: A pointer to the location in str where the prefix begins,
+*         or NULL if the prefix is not found.
+*/
+char *starts_with(const char *str, const char *prefix)
+{
+while (*prefix)
+if (*prefix++ != *str++)
+return (NULL);
+
+return ((char *)str);
+}
+
+/**
+ * *_strcat - Concatenates two strings.
+ * @dest: The destination string to append to.
+ * @src: The source string to append.
  *
- * Return: pointer to destination buffer
+ * Return: A pointer to the concatenated string.
  */
 char *_strcat(char *dest, char *src)
 {
-char *ret = dest;
+char *result = dest;
 
 while (*dest)
 dest++;
 while (*src)
 *dest++ = *src++;
-*dest = *src;
-return (ret);
+*dest = '\0';
+
+return (result);
 }
+
