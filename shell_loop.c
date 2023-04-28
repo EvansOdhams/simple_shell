@@ -69,12 +69,16 @@ break;
 
 return (built_in_ret);
 }
+
 /**
-* find_cmd - finds a command in PATH
-* @info: the parameter & return info struct
-*
-* Return: void
-*/
+ * find_cmd - finds and executes a command based on user input
+ * @info: a pointer to a struct containing information about
+ * the command entered
+ *
+ * This function looks for the command entered by the user in the environment
+ * PATH variable and executes it. If the command is not found, it returns an
+ * error message. It also handles the line count and status of the command.
+ */
 void find_cmd(info_t *info)
 {
 char *path = NULL;
@@ -111,12 +115,13 @@ print_error(info, "not found\n");
 }
 }
 
+
 /**
-* fork_cmd - forks a an exec thread to run cmd
-* @info: the parameter & return info struct
-*
-* Return: void
-*/
+ * fork_cmd - create a child process and execute the command
+ * @info: pointer to struct containing command and arguments
+ *
+ * Return: void
+ */
 void fork_cmd(info_t *info)
 {
 pid_t child_pid;
@@ -124,7 +129,6 @@ pid_t child_pid;
 child_pid = fork();
 if (child_pid == -1)
 {
-/* TODO: PUT ERROR FUNCTION */
 perror("Error:");
 return;
 }
@@ -137,7 +141,6 @@ if (errno == EACCES)
 exit(126);
 exit(1);
 }
-/* TODO: PUT ERROR FUNCTION */
 }
 else
 {
