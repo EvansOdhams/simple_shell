@@ -1,101 +1,98 @@
 #include "shell.h"
 
 /**
- * _strcpy - copy string from source to destination
+ * _strcpy - copies the string pointed to by src to
+ * the buffer pointed to by dest
+ * @dest: buffer to copy string to
+ * @src: string to be copied
  *
- * @dest: destination string to copy to
- * @src: source string to copy from
- *
- * Return: pointer to the destination string
+ * Return: pointer to dest
  */
 char *_strcpy(char *dest, char *src)
 {
-int i;
+int i = 0;
 
-/* Check if the source and destination strings are different */
-if (src && dest != src)
-{
-/* Copy the source string character by character */
-for (i = 0; src[i] != '\0'; i++)
+if (dest == src || src == NULL)
+return (dest);
+
+/* copy string */
+while (src[i] != '\0')
 {
 dest[i] = src[i];
-}
-/* Add a null terminator to the end of the destination string */
-dest[i] = '\0';
+i++;
 }
 
-/* Return a pointer to the beginning of the destination string */
+/* null-terminate string */
+dest[i] = '\0';
+
 return (dest);
 }
 
 /**
- * _strdup - duplicates a string
+ * _strdup - creates a duplicate of a string in a new memory location
  * @str: the string to duplicate
  *
- * Return: pointer to the duplicated string
+ * Return: a pointer to the newly-allocated duplicate string,
+ * or NULL if an error occurs
  */
 char *_strdup(const char *str)
 {
-int length = 0;
-char *ret;
+size_t length;
+char *new_str;
 
 if (str == NULL)
 return (NULL);
-while (*str++)
-length++;
-ret = malloc(sizeof(char) * (length + 1));
-if (!ret)
+
+length = strlen(str);
+new_str = malloc(length + 1);
+
+if (new_str == NULL)
 return (NULL);
-for (length++; length--;)
-ret[length] = *--str;
-return (ret);
+
+memcpy(new_str, str, length + 1);
+return (new_str);
 }
 
 /**
- * _puts - prints a string
+ * _puts - Prints a string to the standard output.
+ * @str: The string to print.
  *
- * @str: the string to be printed
- *
- * Return: void
+ * Return: Nothing.
  */
 void _puts(char *str)
 {
-int i;
+int i = 0;
 
-/* Check if the string is null */
-if (str == NULL)
-{
+if (!str)
 return;
-}
-
-/* Print each character of the string until the null terminator is reached */
-for (i = 0; str[i] != '\0'; i++)
+while (str[i] != '\0')
 {
 _putchar(str[i]);
+i++;
 }
-
-/* Print a newline character after the string */
-_putchar('\n');
 }
 
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
+ * _putchar - Writes a character to standard output.
+ * @c: The character to write.
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * Return: 1 on success, -1 on failure.
  */
 int _putchar(char c)
 {
 static int i;
-static char buf[WRITE_BUF_SIZE];
+static char buffer[WRITE_BUF_SIZE];
 
 if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 {
-write(1, buf, i);
+if (write(STDOUT_FILENO, buffer, i) == -1)
+return (-1);
 i = 0;
 }
+
 if (c != BUF_FLUSH)
-buf[i++] = c;
+buffer[i++] = c;
+
 return (1);
 }
+
